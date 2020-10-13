@@ -23,9 +23,17 @@
  */
 #include <k/kstd.h>
 #include "multiboot.h"
-//#include "io.h"
+#include "io.h"
 #include "init.h"
-// #include "uart.h"
+
+int write(const char *buf, size_t count)
+{
+	char *serial = SERIAL_PORT;
+	int b_count = 0;
+	for (size_t i = 0; i < count; i++)
+		outb(serial, buf[i]);
+	return b_count == count ? count : -1;
+}
 
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
@@ -35,16 +43,12 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	init_kernel();
 	printf("perfect toto");
 
-	// char star[4] = "|/-\\";
-	// void *fb = (void *)0xb8000;
+	char star[4] = "|/-\\";
+	char *fb = (void *)0xb8000;
 
-	// for (unsigned i = 0; ; ) {
-	// 	for (unsigned j = 0; j <= 4 * 2; j+=2) {
-	// 		fb[4 + j] = 'M';
-	// 		fb[4 + j + 1] = "0x00AA00";
-	// 	}
-	// 	*fb = star[i++ % 4];
-	// }
+	for (unsigned i = 0; ; ) {
+		*fb = star[i++ % 4];
+	}
 
 	for (;;)
 		asm volatile ("hlt");

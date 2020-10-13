@@ -30,7 +30,7 @@ void init_uart(void)
 
 /* 2. MEMORY MANAGER */
 
-static struct __attribute__((packed)){
+static struct __attribute__((packed)) gdt_entry {
     u16 seg_lim_15_00 : 16;
     u16 base_15_00 : 16;
     u16 base_23_16 : 8;
@@ -44,16 +44,19 @@ static struct __attribute__((packed)){
     u16 d_b : 1;
     u16 g : 1;
     u16 base_31_24 : 8;
+};
+
+static struct __attribute__((packed)){
+    struct gdt_entry entry;
 } gdt[6];
 
 enum descriptor_type {
     SYS,
     CODE_OR_DATA
 };
-
-void set_dgt_entry(unsigned index, u32 base_adress, u32 limit, u16 type, u16 dpl)
+void set_gdt_entry(unsigned index, u32 base_adress, u32 limit, u16 type, u16 dpl)
 {
-    gdt[index] = {
+    struct gdt_entry entry = {
         .l = 0,
         .avl = 0,
         .d_b = 1,
@@ -68,15 +71,17 @@ void set_dgt_entry(unsigned index, u32 base_adress, u32 limit, u16 type, u16 dpl
         .base_23_16 = base_adress & 0xFF0000,
         .base_31_24 = base_adress & 0xFF000000
     };
+    gdt[index].entry = entry;
 }
 
 void init_gdt() {
     const u32 base_adress = 0;
     const u32 limit = 0xFFFFFFFF;
 
-    gdt[0] = { 0 };                              /* null segment */
-    set_dgt_entry(1, base_adress, limit, 10, 0); /* code segment */
-    set_dgt_entry(2, base_adress, limit, 10, 0); /* data segment */
+    struct gdt_entry null_entry = {0};
+    gdt[0].entry = null_entry;                   /* null segment */
+    set_gdt_entry(1, base_adress, limit, 10, 0); /* code segment */
+    set_gdt_entry(2, base_adress, limit, 10, 0); /* data segment */
 }
 
 static struct __attribute__((packed))
