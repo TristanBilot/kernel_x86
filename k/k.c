@@ -26,7 +26,7 @@
 #include "io.h"
 #include "init.h"
 
-int write(const char *buf, size_t count)
+int write(const char *buf, size_t count) // write() sends up to count bytes from the buffer to the serial port COM1
 {
 	char *serial = SERIAL_PORT;
 	int b_count = 0;

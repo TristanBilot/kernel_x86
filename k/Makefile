@@ -32,7 +32,14 @@ OBJS	= \
 	  memory.o \
 	  io.o \
 	  init.o \
+	  idt.o \
+	  init_asm.o \
 
+NASM=nasm
+NASMFLAGS= -f elf32 -F dwarf -g -w+all
+
+init_asm.o : init_asm.asm
+		$(NASM) $(NASMFLAGS) $< -o $@
 
 DEPS = $(OBJS:.o=.d)
 
