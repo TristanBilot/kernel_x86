@@ -33,6 +33,7 @@ struct idt_entry idt[MAX_IDT_ENTRIES];
 struct idt_ptr _idtp;
 
 extern void _idt_load();
+extern void isr0();
 
 /* Use this function to set an entry in the IDT.  A lot simpler
  * than twiddling with the GDT ;) */
@@ -59,10 +60,12 @@ void init_idt()
 	memset((void*)&idt, 0, sizeof(struct idt_entry) * MAX_IDT_ENTRIES);
 
 	/* Add the IDT interrupt handlers */
-    // add_idt_gate( 0, (u32)isr0 , 0x08, 0x8E);
+    add_idt_gate(0, (u32)isr0 , 0x08, 0x8E);
     // add_idt_gate( 1, (u32)isr1 , 0x08, 0x8E);
     // add_idt_gate(31, (u32)isr32, 0x08, 0x8E);
 
 	/* The assembly function which will load the IDT */
     _idt_load();
+	printf("erere");
+	asm volatile ("int $0x3");
 }

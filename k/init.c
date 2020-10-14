@@ -7,7 +7,7 @@ void init_kernel(void)
 {
     init_uart();
     init_gdt();
-    init_gdt();
+    init_idt();
 }
 
 /* 1. SERIAL PORT */

@@ -30,10 +30,10 @@ OBJS	= \
 	  libvga.o \
 	  list.o \
 	  memory.o \
+	  init_asm.o \
 	  io.o \
 	  init.o \
 	  idt.o \
-	  init_asm.o \
 
 NASM=nasm
 NASMFLAGS= -f elf32 -F dwarf -g -w+all
