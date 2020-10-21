@@ -30,16 +30,18 @@ OBJS	= \
 	  libvga.o \
 	  list.o \
 	  memory.o \
-	  init_asm.o \
 	  io.o \
 	  init.o \
-	  idt.o \
+	  events.o \
+	  isr.o \
+	  #init_asm.o 
+	  #idt.os
 
 NASM=nasm
 NASMFLAGS= -f elf32 -F dwarf -g -w+all
 
-init_asm.o : init_asm.asm
-		$(NASM) $(NASMFLAGS) $< -o $@
+#init_asm.o : init_asm.asm
+#		$(NASM) $(NASMFLAGS) $< -o $@
 
 DEPS = $(OBJS:.o=.d)
 

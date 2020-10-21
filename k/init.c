@@ -2,12 +2,13 @@
 #include "io.h"
 #include "init.h"
 #include "idt.h"
-
+#include "events.h"
 void init_kernel(void)
 {
     init_uart();
     init_gdt();
-    init_idt();
+    load_idt();
+    //init_idt();
 }
 
 /* 1. SERIAL PORT */
@@ -75,7 +76,6 @@ void set_gdt_entry(unsigned index, u32 base_adress, u32 limit, u16 type, u16 dpl
     };
     gdt[index].entry = entry;
 }
-
 
 
 static struct __attribute__((packed))   /* structure to load our GDT , called : gtd_r */
