@@ -11,6 +11,7 @@ Kernel implementation in plain C with some Assembly x86 pieces.
 * Memory Manager (kmalloc-like)
 * Handling of Interrupt Requests (IRQs) with Interrupt Subroutines (ISR)
 * Keyboard support
+* Internal timer
 * ATAPI driver
 * File System (ISO 9660)
 * File methods open() read() seek() close()
