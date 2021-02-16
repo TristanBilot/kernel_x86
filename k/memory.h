@@ -28,5 +28,5 @@ struct cache {
 struct cache *cache_new(void *base, size_t nmemb, size_t bsize);
 void *cache_alloc(struct cache *cache);
 void cache_free(struct cache *cache, void *ptr);
-
+void init_test_memory(multiboot_info_t *info);
 #endif /* MEMORY_H */

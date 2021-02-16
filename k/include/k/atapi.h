@@ -3,13 +3,43 @@
 
 # include <k/compiler.h>
 # include <k/types.h>
+# include <stdbool.h>
+
+/*
+    --- IDE Controller ---
+    1F0 (Read and Write): Data Register
+    1F1 (Read): Error Register
+    1F1 (Write): Features Register
+    1F2 (Read and Write): Sector Count Register
+    1F3 (Read and Write): LBA Low Register
+    1F4 (Read and Write): LBA Mid Register
+    1F5 (Read and Write): LBA High Register
+    1F6 (Read and Write): Drive/Head Register
+    1F7 (Read): Status Register
+    1F7 (Write): Command Register
+    3F6 (Read): Alternate Status Register
+    3F6 (Write): Device Control Register
+    --- Status register ---
+    BSY (busy)
+    DRDY (device ready)
+    DF (Device Fault)
+    DSC (seek complete)
+    DRQ (Data Transfer Requested)
+    CORR (data corrected)
+    IDX (index mark)
+    ERR (error)
+
+    Primary IDE controller: 1F0h to 1F7h and 3F6h to 3F7h
+    Secondary IDE controller: 170h to 177h and 376h to 377h
+*/
+
 
 /* Device Control Registers */
 # define PRIMARY_DCR 0x3F6
 # define SECONDARY_DCR 0x376
 
 /* DCR bits */
-# define INTERRUPT_DISABLE (1 << 1)
+# define DISABLE_IRQ (1 << 1)
 # define SRST (1 << 2)
 
 /* Drive selection bytes */
@@ -83,5 +113,24 @@ struct SCSI_packet {
 	u8 flags_hi;
 	u8 control;
 } __packed;
+
+
+static inline void enable_interrupts(void) {
+    __asm__ volatile("sti");
+}
+
+static inline void disable_interrupts(void) {
+    __asm__ volatile("cli");
+}
+
+void atapi_polling();
+bool is_atapi_drive(u16 bus, u8 drive);
+void select_drive(u16 bus, u8 drive);
+void busy_wait(u16 drive);
+void wait_device_selection();
+void wait_packet_request(u16 drive);
+int send_packet(struct SCSI_packet *pkt, u16 drive, u16 size);
+u16 *read_block(size_t lba);
+
 
 #endif /* !ATAPI_H_ */

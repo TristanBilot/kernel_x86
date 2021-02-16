@@ -20,3 +20,4 @@ EOF
 done > $base_dir/boot/grub/grub.cfg
 
 grub-mkrescue -o $iso_filename $base_dir
+

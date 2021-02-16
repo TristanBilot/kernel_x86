@@ -214,7 +214,6 @@ static void *__memory_reserve_ex(unsigned int base_addr, size_t size, int in_ext
 		cache_extend(memory_map_cache, p, 10 * sizeof(struct cache),
 				sizeof(struct cache), 0);
 	}
-
 	struct memory_map *m;
 	list_for_each(m, &memory_map, list) {
 		if (m->type)
@@ -235,11 +234,9 @@ static void *__memory_reserve_ex(unsigned int base_addr, size_t size, int in_ext
 				memory_split(m, first_size);
 				return memory_reserve_ex(base_addr, size);
 			}
-
 			return memory_split(m, size);
 		}
 	}
-
 	return NULL;
 }
 

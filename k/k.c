@@ -24,14 +24,18 @@
 #include <k/kstd.h>
 #include "multiboot.h"
 #include "io.h"
-#include "init.h"
+#include "init_tables.h"
+#include "kmalloc.h"
 
 int write(const char *buf, size_t count) // write() sends up to count bytes from the buffer to the serial port COM1
 {
 	char *serial = SERIAL_PORT;
 	int b_count = 0;
 	for (size_t i = 0; i < count; i++)
+	{
 		outb(serial, buf[i]);
+		b_count++;
+	}
 	return b_count == count ? count : -1;
 }
 
@@ -39,9 +43,15 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 {
 	(void)magic;
 	(void)info;
-
 	init_kernel();
-	printf("perfect toto");
+	//init_test_memory(info);
+	init_atapi(info);
+
+	asm volatile("int $0");
+	asm volatile("int $20");
+	asm volatile("int $21");
+
+	printf("APRES INTERRUPTION\n");
 
 	char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
@@ -49,7 +59,6 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}
-
 	for (;;)
 		asm volatile ("hlt");
 }

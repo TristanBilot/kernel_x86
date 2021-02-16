@@ -9,7 +9,8 @@ int write(const char *buf, size_t count);
 
 static inline void outb(u16 port, u8 val)
 {
-	asm volatile ("outb %0, %1" : /* No output */ : "a"(val), "d"(port));
+	//asm volatile ("outb %0, %1" : /* No output */ : "a"(val), "d"(port));
+	asm volatile ("outb %1, %0" : : "dN" (port), "a" (val));
 }
 
 static inline u8 inb(u16 port)

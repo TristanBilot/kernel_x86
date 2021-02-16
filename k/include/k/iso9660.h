@@ -23,7 +23,13 @@
 # define ISO9660_H
 
 # define __packed __attribute__((__packed__))
-
+#include <k/atapi.h>
+#include <stdbool.h>
+#include <k/types.h>
+#include <stdio.h>
+#include <k/fs.h>
+#include <stddef.h>
+#include <string.h>
 /* Structures used for twin values */
 
 struct endian32 {
@@ -104,16 +110,14 @@ struct iso_prim_voldesc {
 	char      syidf[ISO_SYSIDF_LEN]; /* System Identifier */
 	char      vol_idf[ISO_VOLIDF_LEN]; /* Volume Identifier */
 	u8   unused2[8]; /* Unused Field */
-	struct endian32  vol_blk_count;
-	/* Number of logical blocks in the Volume (LE)*/
+	struct endian32  vol_blk_count; /* Number of logical blocks in the Volume (LE)*/
 	u8   unused4[32]; /* Unused Field */
 	struct endian16  vol_set_size; /* The Volume Set size of the Volume */
 	struct endian16  vol_seq_num; /* The number of the volume in the Set */
 	struct endian16  vol_blk_size; /* The size in bytes of a Logical Block */
 	struct endian32  path_table_size; /* Length in bytes of the path table */
 	u32  le_path_table_blk; /* LittleEndian path table block index */
-	u32  le_opath_table_blk;
-	/* LittleEndian optional path table block index */
+	u32  le_opath_table_blk; /* LittleEndian optional path table block index */
 	u32  be_path_table_blk; /* BigEndian path table block index */
 	u32  be_opath_table_blk; /* BigEndian optional path table block index */
 

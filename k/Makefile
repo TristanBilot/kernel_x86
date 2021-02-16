@@ -31,18 +31,24 @@ OBJS	= \
 	  list.o \
 	  memory.o \
 	  io.o \
-	  init.o \
-	  events.o \
+	  init_tables.o \
+	  init_tables_all.o \
 	  isr.o \
-	  #init_asm.o 
-	  #idt.os
+	  interrupt_conf.o \
+	  timer.o \
+	  keyboard.o \
+	  atapi.o \
+	  fs.o \
+	#   memory_tests.o \
+	#   kmalloc.o
+	  #events.o
+	  #isr.o
 
-NASM=nasm
-NASMFLAGS= -f elf32 -F dwarf -g -w+all
 
-#init_asm.o : init_asm.asm
-#		$(NASM) $(NASMFLAGS) $< -o $@
-
+init_tables_all.o: init_tables_all.asm
+		nasm -f elf -g -F stabs init_tables_all.asm
+interrupt_conf.o: interrupt_conf.asm
+		nasm -f elf -g -F stabs interrupt_conf.asm
 DEPS = $(OBJS:.o=.d)
 
 all: $(TARGET)

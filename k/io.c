@@ -1,5 +1,5 @@
 #include "io.h"
-#include "init.h"
+#include "init_tables.h"
 
 
 // int write(const char *buf, size_t count)
