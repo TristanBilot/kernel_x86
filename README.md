@@ -1,7 +1,8 @@
 # Introduction
 
 Kernel implementation in plain C with some Assembly x86 pieces.
-The Kernel supports:
+
+## Features
 * Global Descriptor Table (GDT)
 * Interrupt Descripor Table (IDT)
 * Serial driver threw COM1, ..., COM4 ports
