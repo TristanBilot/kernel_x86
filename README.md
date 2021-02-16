@@ -1,4 +1,4 @@
-# Introduction
+# Kernel x86 implementation
 
 Kernel implementation in plain C with some Assembly x86 pieces.
 
