@@ -1,4 +1,20 @@
-# Introduction
+# Kernel x86 implementation
+
+Kernel implementation in plain C with some Assembly x86 pieces.
+
+## Features
+* Global Descriptor Table (GDT)
+* Interrupt Descripor Table (IDT)
+* Serial driver threw COM1, ..., COM4 ports
+* Initialization of uart
+* Implementation of write() syscall
+* Memory Manager (kmalloc-like)
+* Handling of Interrupt Requests (IRQs) with Interrupt Subroutines (ISR)
+* Keyboard support
+* Internal timer
+* ATAPI driver
+* File System (ISO 9660)
+* File methods open() read() seek() close()
 
 ## Table of contents
 
